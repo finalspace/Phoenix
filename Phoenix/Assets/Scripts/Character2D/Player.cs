@@ -180,7 +180,7 @@ public class Player : SingletonBehaviour<Player>
             Vector2 jumpVel = ComputeInitialVelocity();
             if (platform != null)
             {
-                Platform targetPlatform = Mathf.Sign(mousePosition.x) > 0 ? platform.leftParent : platform.rightParent;
+                Platform targetPlatform = Mathf.Sign(mousePosition.x) > 0 ? platform.rightParent : platform.leftParent;
                 playerMovement.Launch(jumpVel, targetPlatform.transform.position);
             }
             else
