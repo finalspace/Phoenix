@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using C1.Feedbacks;
 
-public class Platform : MonoBehaviour
+public abstract class PlatformBase : MonoBehaviour
 {
     [Header("Level")]
-    public Platform leftParent;
-    public Platform rightParent;
+    public PlatformBase leftParent;
+    public PlatformBase rightParent;
+    public Transform nextRoot;
 
     [Header("Effect")]
     public C1Feedbacks FB_Landing;
@@ -20,7 +21,7 @@ public class Platform : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -32,13 +33,18 @@ public class Platform : MonoBehaviour
         }
     }
 
-    public void ObjLanding()
+    public virtual void ObjLanding(GameObject obj)
     {
         FB_Landing?.Play();
     }
 
-    public void ObjLeaving()
+    public virtual void ObjLeaving()
     {
         FB_Releasing?.Play();
+    }
+
+    public virtual void Recycle()
+    {
+        Destroy(gameObject);
     }
 }

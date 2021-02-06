@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 velocity;
     public float targetVelocityX;  //don't set x velocity directly
     public Vector2 landingTarget;
+    private bool homingLandingTarget = false;
 
     private float velocityXSmoothing;
     private float velXSmoothingTemp;
@@ -106,15 +107,9 @@ public class PlayerMovement : MonoBehaviour
             if (velocity.y < 0)
             {
                 velocity.y += gravity * Time.fixedDeltaTime;
-                float ff = 2 * Mathf.Max(transform.position.y - landingTarget.y, 0) / Mathf.Abs(gravity);
-                float landingTime = Mathf.Sqrt(ff);
-                if (landingTime > 0.05f)
+                if (homingLandingTarget)
                 {
-                    targetVelocityX = (landingTarget.x - transform.position.x) / landingTime;
-                }
-                else
-                {
-
+                    LandingHoming();
                 }
             }
         }
@@ -306,11 +301,11 @@ public class PlayerMovement : MonoBehaviour
         if (tiltSurface)
             tiltSliding = true;
         */
-        Platform platform = trans.GetComponent<Platform>();
+        PlatformBase platform = trans.GetComponent<PlatformBase>();
         if (platform)
         {
             transform.SetParent(trans, true);
-            platform.ObjLanding();
+            platform.ObjLanding(gameObject);
             Player.Instance.platform = platform;
         }
     }
@@ -387,8 +382,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Launch(Vector2 vel)
     {
-        Vector2 landingTgt = Vector2.one * -100;
-        Launch(vel, landingTgt);
+        homingLandingTarget = false;
+        Launch(vel, Vector2.zero);
     }
     public void Launch(Vector2 vel, Vector2 landingTgt)
     {
@@ -397,6 +392,7 @@ public class PlayerMovement : MonoBehaviour
         isWalling = false;
         velocity = vel;
         landingTarget = landingTgt;
+        homingLandingTarget = true;
 
         Detach();
         EventManager.PlayerJump(velocity);
@@ -405,6 +401,16 @@ public class PlayerMovement : MonoBehaviour
     public void LaunchFailed()
     {
         EventManager.PlayerJumpFail();
+    }
+
+    private void LandingHoming()
+    {
+        float ff = 2 * Mathf.Max(transform.position.y - landingTarget.y, 0) / Mathf.Abs(gravity);
+        float landingTime = Mathf.Sqrt(ff);
+        if (landingTime > 0.05f)
+        {
+            targetVelocityX = (landingTarget.x - transform.position.x) / landingTime;
+        }
     }
 
     void UpdateTrailEffect()
@@ -435,7 +441,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Detach()
     {
-        Platform platform = transform.parent?.GetComponent<Platform>();
+        PlatformBase platform = transform.parent?.GetComponent<PlatformBase>();
         platform?.ObjLeaving();
         transform.SetParent(null);
     }

@@ -14,7 +14,10 @@ public class Player : SingletonBehaviour<Player>
     private bool isTakingControl = true;
 
     [Header("Level")]
-    public Platform platform;
+    public PlatformBase platform;
+
+    [Header("Jump")]
+    public int lastJumpDir;
 
     [Header("Aiming Effects")]
     private bool jumpCharging = false;
@@ -117,9 +120,9 @@ public class Player : SingletonBehaviour<Player>
     /// calculate launch velociy based on drag input
     /// </summary>
     /// <returns></returns>
-    private Vector2 ComputeInitialVelocity()
+    private Vector2 ComputeInitialVelocity(int dir)
     {
-        Vector2 vel = new Vector2(Mathf.Sign(mousePosition.x) * 4, 8);
+        Vector2 vel = new Vector2(dir * 4, 8);
         return vel;
     }
 
@@ -177,6 +180,7 @@ public class Player : SingletonBehaviour<Player>
             SetCharging(false);
             TimeManager.Instance.Reset();
 
+            /*
             Vector2 jumpVel = ComputeInitialVelocity();
             if (platform != null)
             {
@@ -188,6 +192,10 @@ public class Player : SingletonBehaviour<Player>
                 Debug.LogWarning("No Target Launching");
                 playerMovement.Launch(jumpVel);
             }
+            */
+
+            Jump();
+            
             /*
             if (Vector2.Distance(mousePosition, mouseFirstPos) > 0.01f)
                 playerMovement.Launch(ComputeInitialVelocity());
@@ -199,6 +207,33 @@ public class Player : SingletonBehaviour<Player>
         {
             TimeManager.Instance.TogglePauseGame();
         }
+    }
+
+    public void Jump(int dir = 0)
+    {
+        if (dir == 0)
+            dir = Mathf.Sign(mousePosition.x) > 0 ? 1 : -1;
+
+        lastJumpDir = dir;
+        Vector2 jumpVel = ComputeInitialVelocity(lastJumpDir);
+        PlatformBase targetPlatform = (platform == null) 
+            ? null 
+            : (lastJumpDir > 0 ? platform.rightParent : platform.leftParent);
+
+        if (targetPlatform != null)
+        {
+            playerMovement.Launch(jumpVel, targetPlatform.transform.position);
+        }
+        else
+        {
+            Debug.LogWarning("No Target Launching");
+            playerMovement.Launch(jumpVel);
+        }
+    }
+
+    public void JumpRepeat()
+    {
+        Jump(lastJumpDir);
     }
 
     public void CollectItem()
