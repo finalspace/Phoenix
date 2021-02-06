@@ -21,12 +21,12 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
 
     private void OnEnable()
     {
-        EventManager.OnPlayerJump += ConsumeEnergy;
+        //EventManager.OnPlayerJump += ConsumeEnergy;
     }
 
     private void OnDisable()
     {
-        EventManager.OnPlayerJump -= ConsumeEnergy;
+        //EventManager.OnPlayerJump -= ConsumeEnergy;
     }
 
 
@@ -43,6 +43,8 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
     // Update is called once per frame
     void Update()
     {
+        return;
+
         if (player.transform.position.y > maxHeight)
         {
             maxHeight = player.transform.position.y - startingAltitude;

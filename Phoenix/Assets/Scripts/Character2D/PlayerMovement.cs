@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using C1.Feedbacks;
 
 [RequireComponent(typeof(PlayerCollision))]
 public class PlayerMovement : MonoBehaviour
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpVelY;
     public Vector2 velocity;
     public float targetVelocityX;  //don't set x velocity directly
+    public Vector2 landingTarget;
 
     private float velocityXSmoothing;
     private float velXSmoothingTemp;
@@ -41,7 +43,8 @@ public class PlayerMovement : MonoBehaviour
     private bool tiltSliding = false;
 
     [Header("Visual Effects")]
-	public GameObject damageEffect;
+    public C1Feedbacks landingFeedbacks;
+    public GameObject damageEffect;
 	public GameObject footEffect;
     public GameObject jumpFX;
     public GameObject dashFX;
@@ -101,7 +104,19 @@ public class PlayerMovement : MonoBehaviour
             //apply gravity
             velocity.y += gravity * Time.fixedDeltaTime;
             if (velocity.y < 0)
+            {
                 velocity.y += gravity * Time.fixedDeltaTime;
+                float ff = 2 * Mathf.Max(transform.position.y - landingTarget.y, 0) / Mathf.Abs(gravity);
+                float landingTime = Mathf.Sqrt(ff);
+                if (landingTime > 0.05f)
+                {
+                    targetVelocityX = (landingTarget.x - transform.position.x) / landingTime;
+                }
+                else
+                {
+
+                }
+            }
         }
 
         //------------------------ Update Position ---------------------------------------
@@ -268,10 +283,13 @@ public class PlayerMovement : MonoBehaviour
         EventManager.PlayerLand(velocity);
         isJumping = false;
 
+        /*
         Vector2 pos = new Vector2(transform.position.x, transform.position.y - 0.6f);
         if (footEffect != null)
             Instantiate(footEffect, pos, Quaternion.identity);
         root.rotation = Quaternion.Euler(0, 0, 0);
+        */
+        landingFeedbacks?.Play();
 
         ProcessGroundInfo(ground);
         ResetState();
@@ -279,6 +297,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ProcessGroundInfo(Transform trans)
     {
+        /*
         AttachToMe attach = trans.gameObject.GetComponent<AttachToMe>();
         if (attach != null)
             transform.SetParent(trans, true);
@@ -286,6 +305,14 @@ public class PlayerMovement : MonoBehaviour
         TiltSurface tiltSurface = trans.gameObject.GetComponent<TiltSurface>();
         if (tiltSurface)
             tiltSliding = true;
+        */
+        Platform platform = trans.GetComponent<Platform>();
+        if (platform)
+        {
+            transform.SetParent(trans, true);
+            platform.ObjLanding();
+            Player.Instance.platform = platform;
+        }
     }
 
     private void ResetState()
@@ -325,6 +352,7 @@ public class PlayerMovement : MonoBehaviour
         //UIDebugManager.Instance.Arrow.rotation = Quaternion.Euler(0, 0, ang1);
     }
 
+    /*
     public void Launch(Vector2 vel)
     {
         float energy = PlayerStats.Instance.energy;
@@ -354,6 +382,24 @@ public class PlayerMovement : MonoBehaviour
             GameObject dashfx = Instantiate(dashFX, pos, Quaternion.identity);
             dashfx.transform.SetParent(transform, true);
         }
+    }
+    */
+
+    public void Launch(Vector2 vel)
+    {
+        Vector2 landingTgt = Vector2.one * -100;
+        Launch(vel, landingTgt);
+    }
+    public void Launch(Vector2 vel, Vector2 landingTgt)
+    {
+        jumpNum--;
+        isJumping = true;
+        isWalling = false;
+        velocity = vel;
+        landingTarget = landingTgt;
+
+        Detach();
+        EventManager.PlayerJump(velocity);
     }
 
     public void LaunchFailed()
@@ -389,6 +435,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Detach()
     {
+        Platform platform = transform.parent?.GetComponent<Platform>();
+        platform?.ObjLeaving();
         transform.SetParent(null);
     }
 

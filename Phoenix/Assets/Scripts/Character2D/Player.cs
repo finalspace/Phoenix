@@ -13,13 +13,11 @@ public class Player : SingletonBehaviour<Player>
     private bool isSimulating = true;
     private bool isTakingControl = true;
 
-    [Header("Aiming Effects")]
-    public GameObject aimingRoot;
-    public List<GameObject> aimingDots;
-    public int aimingDotsCount = 6;
-    public bool fullTrajctory = false;
+    [Header("Level")]
+    public Platform platform;
 
-    private bool aiming = false;
+    [Header("Aiming Effects")]
+    private bool jumpCharging = false;
     private float aimingTime;
     private Vector3 camFirstPos;
     private Vector3 mouseFirstPos;
@@ -49,10 +47,6 @@ public class Player : SingletonBehaviour<Player>
         //animator = GetComponent<CharacterSpineAnimator>();
         playerMovement = GetComponent<PlayerMovement>();
         playercollision = GetComponent<PlayerCollision>();
-
-        aimingRoot.transform.SetParent(null);
-        if (fullTrajctory)
-            ShowFullTrajectory();
     }
 
     public void Update()
@@ -60,8 +54,10 @@ public class Player : SingletonBehaviour<Player>
         if (isTakingControl)
             HandleInput();
 
-        if (aiming)
-            DrawTrajectory();
+        if (jumpCharging)
+        {
+
+        }
 
         // die if player height goes below the starting level; can update the fatal height as we got
         if (transform.position.y < playerStats.fatalHeightFalling)
@@ -95,25 +91,7 @@ public class Player : SingletonBehaviour<Player>
         */
     }
 
-    private void ShowFullTrajectory()
-    {
-        for (int i = 0; i < aimingDots.Count - 1; ++i)
-        {
-            aimingDots[i].GetComponent<SpriteRenderer>().color = Color.white;
-        }
-    }
-
-    private void DrawTrajectory()
-    {
-        Vector2 startPos = transform.position + aimingPosOffset;
-        Vector2 vel = ComputeInitialVelocity();
-        Vector2[] dotPosition = playerMovement.GetTrajectory(startPos, vel, aimingTime);
-        for (int i = 0; i < aimingDotsCount; ++i)
-        {
-            aimingDots[i].transform.position = dotPosition[i];
-        }
-    }
-
+    /*
     /// <summary>
     /// calculate launch velociy based on drag input
     /// </summary>
@@ -133,19 +111,21 @@ public class Player : SingletonBehaviour<Player>
         Vector2 vel = playerMovement.GetMappedVelocity(power);
         return vel;
     }
+    */
 
-    public void SetAiming(bool val)
+    /// <summary>
+    /// calculate launch velociy based on drag input
+    /// </summary>
+    /// <returns></returns>
+    private Vector2 ComputeInitialVelocity()
     {
-        if (aiming == val)
-            return;
-        aiming = val;
+        Vector2 vel = new Vector2(Mathf.Sign(mousePosition.x) * 4, 8);
+        return vel;
+    }
 
-        aimingRoot.SetActive(val);
-        if (!aiming)
-        {
-            aimingTime = 0;
-        }
-
+    public void SetCharging(bool val)
+    {
+        jumpCharging = val;
         /*
         if (aiming)
             animator.PlaySquish();
@@ -153,8 +133,6 @@ public class Player : SingletonBehaviour<Player>
             animator.PlayIdle();
         */
     }
-
-
 
     /*****************************************
      * 
@@ -176,7 +154,7 @@ public class Player : SingletonBehaviour<Player>
 
         if (buttonPressed && playerMovement.AbleToJump())
         {
-            SetAiming(true);
+            SetCharging(true);
 
             /*
             //slow motion aiming?
@@ -187,21 +165,34 @@ public class Player : SingletonBehaviour<Player>
 
         if (Input.GetMouseButton(0))
         {
-            if (!aiming) return;
+            if (!jumpCharging) return;
             mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             buttonPressed = false;
-            if (!aiming) return;
+            if (!jumpCharging) return;
 
-            SetAiming(false);
+            SetCharging(false);
             TimeManager.Instance.Reset();
 
+            Vector2 jumpVel = ComputeInitialVelocity();
+            if (platform != null)
+            {
+                Platform targetPlatform = Mathf.Sign(mousePosition.x) > 0 ? platform.leftParent : platform.rightParent;
+                playerMovement.Launch(jumpVel, targetPlatform.transform.position);
+            }
+            else
+            {
+                Debug.LogWarning("No Target Launching");
+                playerMovement.Launch(jumpVel);
+            }
+            /*
             if (Vector2.Distance(mousePosition, mouseFirstPos) > 0.01f)
                 playerMovement.Launch(ComputeInitialVelocity());
             else playerMovement.LaunchFailed();
+            */
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -212,7 +203,7 @@ public class Player : SingletonBehaviour<Player>
 
     public void CollectItem()
     {
-        MusicManager.Instance?.PlayEat();
+        //MusicManager.Instance?.PlayEat();
         //animator.PlayEat();
     }
 
@@ -271,7 +262,7 @@ public class Player : SingletonBehaviour<Player>
             Invoke("Respawn", 2);
         }
 
-        SetAiming(false);
+        SetCharging(false);
         playerStats.isDying = false;
         //animator.PlayDie();
 

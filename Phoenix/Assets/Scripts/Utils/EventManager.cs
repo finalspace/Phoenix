@@ -20,11 +20,11 @@ public class EventManager
 
     public static void PlayerJump(Vector3 vel)
     {
-        OnPlayerJump(vel);
+        //OnPlayerJump(vel);
     }
 
     public static void PlayerJumpFail()
     {
-        OnPlayerJumpFail();
+        //OnPlayerJumpFail();
     }
 }
