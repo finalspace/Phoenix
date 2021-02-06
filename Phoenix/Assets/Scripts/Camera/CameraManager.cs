@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraManager : SingletonBehaviour<CameraManager>
 {
+    public Transform followingTarget;
     public Camera cam;
     public float magnitude = 1.0f;
     public float roughness = 8;
@@ -15,10 +16,7 @@ public class CameraManager : SingletonBehaviour<CameraManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            PlayShake();
-        }
+        transform.position = new Vector3(followingTarget.position.x, followingTarget.position.y, transform.position.z);
     }
 
     public void PlayShake()
