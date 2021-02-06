@@ -10,6 +10,7 @@ namespace C1.Feedbacks
         public Camera cam;
         public float magnitude = 1.0f;
         public float roughness = 8;
+        public float zoomPower = 0.2f;
         public float sustainTime = 1;
         public float fadeInTime = 0;
         public float fadeOutTime = 0.5f;
@@ -25,7 +26,7 @@ namespace C1.Feedbacks
 
             base.Play();
 
-            CameraShakeInstance shakeInstance = new CameraShakeInstance(magnitude, roughness, sustainTime, fadeInTime, fadeOutTime, cam);
+            CameraShakeInstance shakeInstance = new CameraShakeInstance(magnitude, roughness, sustainTime, fadeInTime, fadeOutTime, zoomPower, cam);
             CameraShaker camShaker = cam.gameObject.AddComponent<CameraShaker>();
             camShaker.Init(shakeInstance);
             camShaker.Play();

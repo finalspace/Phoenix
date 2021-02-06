@@ -1005,8 +1005,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followingTarget: {fileID: 1051135736}
   cam: {fileID: 1507648734}
-  magnitude: 1
-  roughness: 8
+  magnitude: 0.2
+  roughness: 1
+  zoomPower: 0.05
   sustainTime: 1
   fadeInTime: 0
   fadeOutTime: 0.5
@@ -1042,8 +1043,8 @@ MonoBehaviour:
     PositionParameterMode: 1
     RotationParameterMode: 1
     PositionExponentialHalfLife: 0.02
-    PositionOscillationHalfLife: 0.3
-    PositionOscillationFrequency: 0.5
+    PositionOscillationHalfLife: 0.1
+    PositionOscillationFrequency: 1.5
     PositionOscillationDampingRatio: 0.5
     MoveReactionMultiplier: 1
     LinearImpulseMultiplier: 1
@@ -3277,6 +3278,7 @@ MonoBehaviour:
   cam: {fileID: 1092650126}
   magnitude: 0.5
   roughness: 4
+  zoomPower: 0.2
   sustainTime: 0.5
   fadeInTime: 0
   fadeOutTime: 0.5
@@ -6230,6 +6232,7 @@ MonoBehaviour:
   cam: {fileID: 1092650126}
   magnitude: 0.5
   roughness: 4
+  zoomPower: 0.2
   sustainTime: 0.5
   fadeInTime: 0
   fadeOutTime: 0.5
@@ -12466,6 +12469,7 @@ MonoBehaviour:
   cam: {fileID: 1507648734}
   magnitude: 0.5
   roughness: 4
+  zoomPower: 0.2
   sustainTime: 0.5
   fadeInTime: 0
   fadeOutTime: 0.5
@@ -12540,6 +12544,7 @@ MonoBehaviour:
   cam: {fileID: 1092650126}
   magnitude: 0.5
   roughness: 4
+  zoomPower: 0.2
   sustainTime: 0.5
   fadeInTime: 0
   fadeOutTime: 0.5
@@ -12853,6 +12858,7 @@ MonoBehaviour:
   cam: {fileID: 1092650126}
   magnitude: 0.5
   roughness: 4
+  zoomPower: 0.2
   sustainTime: 0.5
   fadeInTime: 0
   fadeOutTime: 0.5
@@ -13663,6 +13669,7 @@ MonoBehaviour:
   cam: {fileID: 1507648734}
   magnitude: 0.5
   roughness: 4
+  zoomPower: 0.2
   sustainTime: 0.5
   fadeInTime: 0
   fadeOutTime: 0.5
@@ -13710,6 +13717,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1799560581}
   - component: {fileID: 1799560583}
+  - component: {fileID: 1799560582}
   m_Layer: 0
   m_Name: FB_Bounce
   m_TagString: Untagged
@@ -13731,6 +13739,28 @@ Transform:
   m_Father: {fileID: 284970300}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1799560582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799560580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4de7af24d7a9ed43b7e40940b302d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Label: Cam Shake
+  root: {fileID: 0}
+  cam: {fileID: 1507648734}
+  magnitude: 0.2
+  roughness: 2
+  zoomPower: 0.05
+  sustainTime: 1
+  fadeInTime: 0
+  fadeOutTime: 0.5
 --- !u!114 &1799560583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13743,7 +13773,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c897689bbcf894e438d3dc3db786ca50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  feedbacks: []
+  feedbacks:
+  - {fileID: 1799560582}
   autoPlay: 0
 --- !u!1 &1810845308
 GameObject:

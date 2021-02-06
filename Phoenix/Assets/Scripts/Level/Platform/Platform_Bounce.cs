@@ -26,6 +26,7 @@ public class Platform_Bounce : PlatformBase
             StartCoroutine(delayedAction(() => {
                 int dir = bounceDirection == 0 ? player.lastJumpDir : bounceDirection;
                 player.Jump(dir);
+                FB_Bounce?.Play();
             }, 1));
         }
 

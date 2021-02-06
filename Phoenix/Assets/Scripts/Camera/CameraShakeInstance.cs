@@ -14,6 +14,8 @@ public class CameraShakeInstance
     /// </summary>
     public float Roughness;
 
+    public float ZoomPower;
+
     /// <summary>
     /// How much influence this shake has over the local position axes of the camera.
     /// </summary>
@@ -53,10 +55,11 @@ public class CameraShakeInstance
     /// <param name="fadeInTime">How long, in seconds, to fade in the shake.</param>
     /// <param name="fadeOutTime">How long, in seconds, to fade out the shake.</param>
     /// <param name="roughness">Roughness of the shake. Lower values are smoother, higher values are more jarring.</param>
-    public CameraShakeInstance(float magnitude, float roughness, float sustainTime, float fadeInTime, float fadeOutTime, Camera cam = null)
+    public CameraShakeInstance(float magnitude, float roughness, float sustainTime, float fadeInTime, float fadeOutTime, float zoomPower, Camera cam = null)
     {
         this.Magnitude = magnitude;
         this.Roughness = roughness;
+        this.ZoomPower = zoomPower;
         this.camRef = cam;
         if (cam != null)
             camSizeOld = cam.orthographicSize;
@@ -159,7 +162,7 @@ public class CameraShakeInstance
             tick += Time.deltaTime * Roughness * roughMod;
 
         if (camRef != null)
-            camRef.orthographicSize = camSizeOld - percentage * 0.2f;
+            camRef.orthographicSize = camSizeOld - percentage * ZoomPower;
 
         return amt * Magnitude * magnMod * percentage;
     }

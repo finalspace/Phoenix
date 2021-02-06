@@ -69,7 +69,7 @@ public class CameraShaker : MonoBehaviour {
 
     private void GenerateDefaultShakeInstance()
     {
-        shakeInstance = new CameraShakeInstance(1, 8, 1, 0, 0.5f, Camera.main);
+        shakeInstance = new CameraShakeInstance(1, 8, 1, 0, 0.5f, 0.2f, Camera.main);
     }
 
     public void OnComplete()
