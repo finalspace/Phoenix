@@ -26,7 +26,6 @@ namespace C1.Feedbacks
         private float stretchTargetVal = 0;
         private float stretchVel;
 
-
         [Header("Squash")]
         /// the curve to apply when squashing the object (this describes scale on x and z, will be inverted for y to maintain mass)
         public AnimationCurve SquashCurve = new AnimationCurve(new Keyframe(0, 0), new Keyframe(0.5f, 1f), new Keyframe(1, 0f));
@@ -40,8 +39,6 @@ namespace C1.Feedbacks
         private float squashStartAt = 0f;
         private float releaseStartAt = 0f;
         private bool _squashing = false;
-        private float _squashIntensity;
-        private float _squashDuration;
 
         private bool _movementStarted = false;
         private float _lastVelocity = 0f;
@@ -73,7 +70,7 @@ namespace C1.Feedbacks
 
             base.Play();
 
-            TriggerSquash(duration, intensity);
+            TriggerSquash();
         }
 
         protected virtual void LateUpdate()
@@ -118,12 +115,10 @@ namespace C1.Feedbacks
         }
 
         //event
-        public void TriggerSquash(float duration, float intensity)
+        public void TriggerSquash()
         {
             squashStartAt = TimescaleTime;
             _squashing = true;
-            _squashIntensity = intensity;
-            _squashDuration = duration;
             playing = true;
         }
 

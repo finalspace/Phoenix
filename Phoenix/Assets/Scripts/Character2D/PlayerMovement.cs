@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isJumping = true;
     //private bool isOnRope = false;
     const int maxJumpNum = 1;
-    private int jumpNum;
+    public int jumpNum;
     public bool isDashing = false;
     public bool dashReady = false;
     private bool isWalling = false;
@@ -64,10 +64,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isSimulating) return;
-
-        SimulateMovement();
-        HandlePhysics();
+        if (isSimulating)
+        {
+            SimulateMovement();
+            HandlePhysics();
+        }
+        else
+        {
+            SimulateMovementOnly();
+        }
     }
 
     /// <summary>
@@ -117,6 +122,19 @@ public class PlayerMovement : MonoBehaviour
         //------------------------ Update Position ---------------------------------------
         //------------------------                 ---------------------------------------
         playerCollision.Move(velocity * Time.fixedDeltaTime);  //move and update physics status based on new position
+    }
+
+    private void SimulateMovementOnly()
+    {
+        //------------------------ Update Velocity ---------------------------------------
+        //------------------------                 ---------------------------------------
+        float accelerationTime = isOnGround ? accelerationTimeGrounded : accelerationTimeAirborne;
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, accelerationTime, Mathf.Infinity, Time.fixedDeltaTime);
+        velocity.y += gravity * Time.fixedDeltaTime;
+
+        //------------------------ Update Position ---------------------------------------
+        //------------------------                 ---------------------------------------
+        playerCollision.MoveIgnoreCollision(velocity * Time.fixedDeltaTime);  //move and update physics status based on new position
     }
 
     /// <summary>
@@ -411,7 +429,11 @@ public class PlayerMovement : MonoBehaviour
         float landingTime = Mathf.Sqrt(ff);
         if (landingTime > 0.05f)
         {
-            targetVelocityX = (landingTarget.x - transform.position.x) / landingTime;
+            targetVelocityX = ((landingTarget.x - transform.position.x) / landingTime);
+
+            float accelerationTime = 0.1f;
+            velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, accelerationTime, Mathf.Infinity, Time.fixedDeltaTime);
+
         }
     }
 
@@ -482,7 +504,7 @@ public class PlayerMovement : MonoBehaviour
     public void StopSimulation()
     {
         isSimulating = false;
-        Reset();
+        //Reset();
     }
 
     public void Reset()

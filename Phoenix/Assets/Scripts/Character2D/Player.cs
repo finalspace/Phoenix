@@ -11,7 +11,7 @@ public class Player : SingletonBehaviour<Player>
     private PlayerCollision playercollision;
 
     public bool isSimulating = true;
-    private bool isTakingControl = true;
+    public bool isTakingControl = true;
 
     [Header("Level")]
     public PlatformBase platform;
@@ -232,6 +232,7 @@ public class Player : SingletonBehaviour<Player>
             Debug.LogWarning("No Target Launching");
             playerMovement.Launch(jumpVel);
         }
+        platform = null;
     }
 
     public void JumpRepeat()
@@ -292,7 +293,7 @@ public class Player : SingletonBehaviour<Player>
         UIManager.Instance?.UpdateLife(playerStats.lives);
         if (playerStats.lives <= 0)
         {
-            Invoke("GameOver", 2);
+            GameOver();
         }
         else
         {
@@ -321,7 +322,14 @@ public class Player : SingletonBehaviour<Player>
 
     public void GameOver()
     {
-        MainGameManager.Instance.GameLost();
+        Debug.Log("GameOver");
+        CameraManager.Instance.StopFollowing(playerMovement.velocity);
+        Invoke("GameOverFlow", 1);
+    }
+
+    public void GameOverFlow()
+    {
+        //MainGameManager.Instance.GameLost();
         Destroy(gameObject);
     }
 

@@ -5,12 +5,20 @@ using C1.Feedbacks;
 
 public class Platform_Disappear : PlatformBase
 {
+    [Header("Platform_Disappear")]
     public C1Feedbacks FB_Countdown;
+    public C1FeedbackWobble2D wobble2D;
 
     public float countDownTime = 2.0f;
 
+    public GameObject sprite;
+    public BoxCollider2D colliderBox;
+
     private bool countDownStarted = false;
     private float countDownAt;
+
+    //update
+    private float timeLeft;
 
     public override void Update()
     {
@@ -22,7 +30,12 @@ public class Platform_Disappear : PlatformBase
         if (!countDownStarted)
             return;
 
-        if (Time.time - countDownAt > countDownTime)
+        timeLeft = countDownTime - (Time.time - countDownAt);
+        if (timeLeft < 0.5f && wobble2D)
+        {
+            wobble2D.duration = 0.2f;
+        }
+        if (timeLeft < 0)
         {
             Disappear();
         }
@@ -37,7 +50,18 @@ public class Platform_Disappear : PlatformBase
 
     public void Disappear()
     {
+        sprite.SetActive(false);
+        colliderBox.enabled = false;
+        Invoke("TrueDestroy", 0.2f);
+    }
+
+    public void TrueDestroy()
+    {
         //todo: kill character
+        if (Player.Instance != null && Player.Instance.platform == this)
+        {
+            Player.Instance.Kill();
+        }
         Recycle();
     }
 }

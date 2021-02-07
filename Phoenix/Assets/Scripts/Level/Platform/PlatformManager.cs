@@ -27,7 +27,7 @@ public class PlatformManager : SingletonBehaviour<PlatformManager>
             SpawnPlatformRow();
         }
 
-        if (spawnTrigger.transform.position.y > topRow.transform.position.y + heightDiff)
+        if (spawnTrigger != null && spawnTrigger.position.y > topRow.transform.position.y + heightDiff)
         {
             SpawnPlatformRow();
         }

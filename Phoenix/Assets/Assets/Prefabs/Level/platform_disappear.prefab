@@ -243,7 +243,10 @@ MonoBehaviour:
   FB_Landing: {fileID: 1813885241906924223}
   FB_Releasing: {fileID: 1813885242084882016}
   FB_Countdown: {fileID: 1813885240322130846}
+  wobble2D: {fileID: 1813885240322130845}
   countDownTime: 1
+  sprite: {fileID: 1813885241508131211}
+  colliderBox: {fileID: 1813885241135175805}
 --- !u!1 &1813885241508131211
 GameObject:
   m_ObjectHideFlags: 0
