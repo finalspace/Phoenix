@@ -122,7 +122,7 @@ public class Player : SingletonBehaviour<Player>
     /// <returns></returns>
     private Vector2 ComputeInitialVelocity(int dir)
     {
-        Vector2 vel = new Vector2(dir * 4, 8);
+        Vector2 vel = new Vector2(dir * 3, 8);
         return vel;
     }
 
@@ -151,7 +151,8 @@ public class Player : SingletonBehaviour<Player>
         if (Input.GetMouseButtonDown(0))
         {
             buttonPressed = true;
-            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
             mouseFirstPos = mousePosition;
         }
 
@@ -169,7 +170,9 @@ public class Player : SingletonBehaviour<Player>
         if (Input.GetMouseButton(0))
         {
             if (!jumpCharging) return;
-            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -212,7 +215,7 @@ public class Player : SingletonBehaviour<Player>
     public void Jump(int dir = 0)
     {
         if (dir == 0)
-            dir = Mathf.Sign(mousePosition.x) > 0 ? 1 : -1;
+            dir = mousePosition.x > 0.5f ? 1 : -1;
 
         lastJumpDir = dir;
         Vector2 jumpVel = ComputeInitialVelocity(lastJumpDir);

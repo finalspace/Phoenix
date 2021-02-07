@@ -304,7 +304,7 @@ public class PlayerMovement : MonoBehaviour
         PlatformBase platform = trans.GetComponent<PlatformBase>();
         if (platform)
         {
-            transform.SetParent(trans, true);
+            //transform.SetParent(trans, true);
             platform.ObjLanding(gameObject);
             Player.Instance.platform = platform;
         }
@@ -327,6 +327,8 @@ public class PlayerMovement : MonoBehaviour
         velocity.y = 0;
         if (tiltSliding)
             ProcessTiltSlide();
+
+        homingLandingTarget = false;
     }
 
     private void ProcessTiltSlide()

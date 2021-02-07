@@ -8,6 +8,8 @@ public abstract class PlatformBase : MonoBehaviour
     [Header("Level")]
     public PlatformBase leftParent;
     public PlatformBase rightParent;
+    public PlatformBase leftChild;
+    public PlatformBase rightChild;
     public Transform nextRoot;
 
     [Header("Effect")]

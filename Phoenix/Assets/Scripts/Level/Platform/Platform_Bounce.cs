@@ -32,11 +32,6 @@ public class Platform_Bounce : PlatformBase
 
     }
 
-    public override void ObjLeaving()
-    {
-        base.ObjLeaving();
-    }
-
     IEnumerator delayedAction(UnityAction action, int nFrames)
     {
         yield return null;

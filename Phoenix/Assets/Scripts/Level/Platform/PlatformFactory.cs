@@ -8,7 +8,7 @@ public class PlatformFactory : SingletonBehaviour<PlatformFactory>
 
     public GameObject GetPlatform(int id)
     {
-        if (id >= platforms.Count)
+        if (id < 0 || id >= platforms.Count)
             return null;
         return platforms[id];
     }

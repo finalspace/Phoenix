@@ -35,11 +35,6 @@ public class Platform_Disappear : PlatformBase
         countDownStarted = true;
     }
 
-    public override void ObjLeaving()
-    {
-        base.ObjLeaving();
-    }
-
     public void Disappear()
     {
 

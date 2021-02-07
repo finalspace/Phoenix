@@ -19,6 +19,14 @@ namespace C1.Feedbacks
         public override Color FeedbackColor { get { return new Color32(255, 212, 0, 255); } }
 #endif
 
+        private void Awake()
+        {
+            if (cam == null)
+            {
+                cam = Camera.main;
+            }
+        }
+
         public override void Play()
         {
             if (!Active)

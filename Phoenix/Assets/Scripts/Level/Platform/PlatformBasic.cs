@@ -16,14 +16,6 @@ public class PlatformBasic : PlatformBase
         base.Update();
     }
 
-    public override void ObjLanding(GameObject obj)
-    {
-    }
-
-    public override void ObjLeaving()
-    {
-    }
-
     public override void Recycle()
     {
 
