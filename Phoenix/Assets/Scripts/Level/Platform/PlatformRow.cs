@@ -10,11 +10,6 @@ public class PlatformRow : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            int[] data = new int[11];
-            Spawn(data);
-        }
     }
 
     public void Spawn(int[] data)

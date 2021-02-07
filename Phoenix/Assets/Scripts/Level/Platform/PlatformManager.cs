@@ -150,7 +150,18 @@ public class PlatformManager : SingletonBehaviour<PlatformManager>
             }
             else if (RandomGenerator.Test(0.1f))
             {
-                nextPlatformRowData[i] = 3;
+                if (RandomGenerator.Test(0.3f))
+                {
+                    nextPlatformRowData[i] = 4;
+                }
+                else if (RandomGenerator.Test(0.3f))
+                {
+                    nextPlatformRowData[i] = 5;
+                }
+                else
+                {
+                    nextPlatformRowData[i] = 3;
+                }
             }
             else
             {
