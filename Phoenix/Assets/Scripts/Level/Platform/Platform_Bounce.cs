@@ -10,14 +10,6 @@ public class Platform_Bounce : PlatformBase
 
     public int bounceDirection = 0;
 
-    public override void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ObjLanding(null);
-        }
-    }
-
     public override void ObjLanding(GameObject obj)
     {
         Player player = obj.GetComponent<Player>();

@@ -24,7 +24,7 @@ public class Platform_Disappear : PlatformBase
 
         if (Time.time - countDownAt > countDownTime)
         {
-            Recycle();
+            Disappear();
         }
     }
 
@@ -37,6 +37,7 @@ public class Platform_Disappear : PlatformBase
 
     public void Disappear()
     {
-
+        //todo: kill character
+        Recycle();
     }
 }

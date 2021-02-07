@@ -10,7 +10,7 @@ public class Player : SingletonBehaviour<Player>
     private PlayerStats playerStats;
     private PlayerCollision playercollision;
 
-    private bool isSimulating = true;
+    public bool isSimulating = true;
     private bool isTakingControl = true;
 
     [Header("Level")]
@@ -292,8 +292,7 @@ public class Player : SingletonBehaviour<Player>
         UIManager.Instance?.UpdateLife(playerStats.lives);
         if (playerStats.lives <= 0)
         {
-            MainGameManager.Instance.GameLost();
-            Destroy(gameObject);
+            Invoke("GameOver", 2);
         }
         else
         {
@@ -318,6 +317,12 @@ public class Player : SingletonBehaviour<Player>
         Invoke("DismissInvulnerable", 3);
 
         StartSimulation();
+    }
+
+    public void GameOver()
+    {
+        MainGameManager.Instance.GameLost();
+        Destroy(gameObject);
     }
 
     private Vector3 GetRespawnPosition()
