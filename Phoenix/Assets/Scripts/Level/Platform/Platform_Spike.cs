@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformBasic : PlatformBase
+public class Platform_Spike : PlatformBase
 {
 }

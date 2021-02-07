@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Recycle
   - DeadZone
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -40,6 +41,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BG
+    uniqueID: 2495638415
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Level
+    uniqueID: 100739469
+    locked: 0
+  - name: Front
+    uniqueID: 1087054999
     locked: 0

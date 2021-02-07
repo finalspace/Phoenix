@@ -163,6 +163,17 @@ public class PlatformManager : SingletonBehaviour<PlatformManager>
                     nextPlatformRowData[i] = 3;
                 }
             }
+            else if (RandomGenerator.Test(0.2f))
+            {
+                if (RandomGenerator.Test(0.3f))
+                {
+                    nextPlatformRowData[i] = 6;
+                }
+                else
+                {
+                    nextPlatformRowData[i] = 7;
+                }
+            }
             else
             {
                 nextPlatformRowData[i] = 1;

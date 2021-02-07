@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : SingletonBehaviour<Player>
 {
@@ -204,11 +205,6 @@ public class Player : SingletonBehaviour<Player>
                 playerMovement.Launch(ComputeInitialVelocity());
             else playerMovement.LaunchFailed();
             */
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TimeManager.Instance.TogglePauseGame();
         }
     }
 
