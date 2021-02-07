@@ -7,6 +7,7 @@ public class Platform_Disappear : PlatformBase
 {
     [Header("Platform_Disappear")]
     public C1Feedbacks FB_Countdown;
+    public C1Feedbacks FB_Disappear;
     public C1FeedbackWobble2D wobble2D;
 
     public float countDownTime = 2.0f;
@@ -50,8 +51,12 @@ public class Platform_Disappear : PlatformBase
 
     public void Disappear()
     {
+        countDownStarted = false;
+
         sprite.SetActive(false);
         colliderBox.enabled = false;
+        FB_Disappear?.Play();
+
         Invoke("TrueDestroy", 0.2f);
     }
 
