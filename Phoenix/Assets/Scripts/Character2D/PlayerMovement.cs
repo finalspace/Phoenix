@@ -453,15 +453,27 @@ public class PlayerMovement : MonoBehaviour
 
 
 	// flip the character so he is facing the direction he is moving in
-	void Flip(Vector2 input){
-		
+	void Flip(Vector2 input)
+    {
+        /*
 		if(input.x > 0 && facingRight == false || input.x < 0 && facingRight == true){
 			facingRight = !facingRight;
 			Vector3 theScale = transform.localScale;
 			theScale.x *= -1;
 			transform.localScale = theScale;
 		}
-	}
+        */
+        Vector3 theScale = transform.localScale;
+        theScale.x = (input.x > 0) ? 1 : -1;
+        transform.localScale = theScale;
+    }
+
+    public void Flip(float velX)
+    {
+        Vector3 theScale = transform.localScale;
+        theScale.x = (velX > 0) ? 1 : -1;
+        transform.localScale = theScale;
+    }
 
     public void Detach()
     {
