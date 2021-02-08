@@ -141,6 +141,12 @@ public class PlatformManager : SingletonBehaviour<PlatformManager>
         //update data
         for (int i = 0; i < nextPlatformRowData.Length; i++)
         {
+            /*
+            if (RandomGenerator.Test(0.1f))
+            {
+                nextPlatformRowData[i] = 7;
+            }
+            */
             //test empty
             if (lastVal != 0 && RandomGenerator.Test(0.3f))
             {

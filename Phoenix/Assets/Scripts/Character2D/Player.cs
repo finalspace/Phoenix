@@ -250,7 +250,7 @@ public class Player : SingletonBehaviour<Player>
 
     public void Eat()
     {
-        playerStats.UpdateEnergy(10);
+        playerStats.UpdateEnergy(12);
     }
 
     public void EatDamage()

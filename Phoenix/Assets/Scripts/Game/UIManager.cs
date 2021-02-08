@@ -24,7 +24,7 @@ public class UIManager : SingletonBehaviour<UIManager>
     private float currentEnergyPercentage;
     private int score = 0;
 
-    private float normalUpdateSpeed = 0.002f;
+    private float normalUpdateSpeed = 0.004f;
 
     //update
     private float diff = 0;
