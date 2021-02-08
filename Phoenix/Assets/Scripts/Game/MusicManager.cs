@@ -46,9 +46,6 @@ public class MusicManager : SingletonBehaviour<MusicManager>
 
     private void Start()
     {
-        audioSource_thunder.clip = audioClip_Thunder;
-        audioSource_thunder.volume = 0.6f;
-
         // cropping sounds like this works but was slow, have to check later
         //audioClip_Jump = MakeSubclip(audioClip_Jump, 0.8f, 0.942f);
     }
@@ -85,7 +82,7 @@ public class MusicManager : SingletonBehaviour<MusicManager>
         {
             GameMusic();
         }
-        if (!damped) UndampenMusic(); // keep damped if on a campfire, else normal volume
+        //if (!damped) UndampenMusic(); // keep damped if on a campfire, else normal volume
         audioSource_BG.Play();
         started = true;
         bgTime = DateTimeUtil.GetUnixTime();
@@ -103,12 +100,11 @@ public class MusicManager : SingletonBehaviour<MusicManager>
 
     public void PlayJump(Vector3 vel)
     {
-        if (thundering) return; // not used currently but thunder is false by default
         audioSource_SE.clip = audioClip_Jump;
         //audioSource_SE.pitch = 0.2f; // low pitch gives flame-like sound
         //audioSource_SE.pitch = 0.1f;
         //audioSource_SE.volume = 0.3f;
-        audioSource_SE.volume = 0.06f; // the wav is very loud, needs low vol
+        audioSource_SE.volume = 1f; // the wav is very loud, needs low vol
         audioSource_SE.Play();
     }
 
@@ -119,7 +115,6 @@ public class MusicManager : SingletonBehaviour<MusicManager>
 
     public void PlayEat()
     {
-        if (thundering) return;
         audioSource_SE.clip = audioClip_Eat;
         audioSource_SE.volume = 0.9f;
         audioSource_SE.Play();
@@ -127,7 +122,6 @@ public class MusicManager : SingletonBehaviour<MusicManager>
 
     public void PlayDamage()
     {
-        if (thundering) return;
         audioSource_SE.clip = audioClip_Damage;
         audioSource_SE.volume = 1f;
         audioSource_SE.Play();
@@ -135,7 +129,6 @@ public class MusicManager : SingletonBehaviour<MusicManager>
 
     public void PlayCampfire()
     {
-        if (thundering) return;
         audioSource_SE.clip = audioClip_Campfire;
         DampenMusic();
         audioSource_SE.volume = 1f;
@@ -159,13 +152,13 @@ public class MusicManager : SingletonBehaviour<MusicManager>
 
     public void DampenMusic() // TODO: gradual volume ducking/tweening
     {
-        audioSource_BG.volume = 0.1f;
+        //audioSource_BG.volume = 0.1f;
         damped = true;
     }
 
     public void UndampenMusic()
     {
-        audioSource_BG.volume = 0.6f;
+        //audioSource_BG.volume = 0.6f;
         damped = false;
     }
 
