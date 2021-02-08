@@ -19,6 +19,9 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
     [Header("status")]
     public bool IsInvulnerable = false;
 
+    private float heightScore = 0;
+    private float bonusScore = 0;
+
     private void OnEnable()
     {
         //EventManager.OnPlayerJump += ConsumeEnergy;
@@ -36,8 +39,11 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
         player = Player.Instance;
 
         startingAltitude = player.transform.position.y;
-        maxHeight = player.transform.position.y - startingAltitude;
+        maxHeight = 0;
+        //maxHeight = player.transform.position.y - startingAltitude;
         score = 0;
+        heightScore = 0;
+        bonusScore = 0;
     }
 
     // Update is called once per frame
@@ -52,6 +58,12 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
             if (energy <= 0) player.Kill();
         }
 
+        if (player.transform.position.y - startingAltitude > maxHeight)
+        {
+            maxHeight = player.transform.position.y - startingAltitude;
+            heightScore = maxHeight;
+        }
+        score = (int)(heightScore * 10 + bonusScore);
         return;
 
         if (player.transform.position.y > maxHeight)
@@ -82,6 +94,9 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
 
     public void UpdateEnergy(float value)
     {
+        if (value > 0)
+            bonusScore += value * 10;
+
         energy += value;
         if (energy < 0)
         {

@@ -48,11 +48,14 @@ public class UIManager : SingletonBehaviour<UIManager>
         healthbar.fillAmount = currentEnergyPercentage;
         //healthbar.rectTransform.sizeDelta = new Vector2(lifebarWidth * energyPercentage, lifebarHeight);
 
+        scoreText.text = "" + PlayerStats.Instance.score;
+        return;
+
         if (score != PlayerStats.Instance.score)
         {
             score = PlayerStats.Instance.score;
             scoreText.text = "" + score;
-            scorePulse.Play();
+            //scorePulse.Play();
         }
     }
 

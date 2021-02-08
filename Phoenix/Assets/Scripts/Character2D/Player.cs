@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Player : SingletonBehaviour<Player>
 {
     //public CharacterSpineAnimator animator;
+    public Animator animator;
     public PlayerMovement playerMovement;
 
     private PlayerStats playerStats;
@@ -230,6 +231,8 @@ public class Player : SingletonBehaviour<Player>
             playerMovement.Launch(jumpVel);
         }
         platform = null;
+
+        //animator.Play("DarkPhoenix");
     }
 
     public void JumpRepeat()
