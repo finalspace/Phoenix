@@ -10,8 +10,8 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
     public int score = 0;
     public bool losingEnergy = true;
     public float fatalHeightFalling = -14;
-    public float energy = 100;
-    private float decreasingSpeed = 0;
+    public float energy = 50;
+    private float decreasingSpeed = 2;
     public Player player;
     public float startingAltitude = 0;
     public bool isDying = false;
@@ -43,6 +43,15 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
     // Update is called once per frame
     void Update()
     {
+        if (PrototypeManager.Instance.gameState != GameState.Main)
+            return;
+
+        if (energy > 0 && losingEnergy)
+        {
+            energy -= Time.deltaTime * decreasingSpeed;
+            if (energy <= 0) player.Kill();
+        }
+
         return;
 
         if (player.transform.position.y > maxHeight)
@@ -58,6 +67,7 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
 
     }
 
+    /*
     public void UpdateEnergy(float value)
     {
         energy += value;
@@ -67,6 +77,21 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
             player.SoftKill();
         }
         energy = Mathf.Clamp(energy, 0, 120);
+    }
+    */
+
+    public void UpdateEnergy(float value)
+    {
+        energy += value;
+        if (energy < 0)
+        {
+            energy = 0;
+            player.Kill();
+        }
+        else if (energy >= 100)
+        {
+            Player.Instance.TransformDarkPhoenix();
+        }
     }
 
     public void ConsumeEnergy(Vector3 vel)

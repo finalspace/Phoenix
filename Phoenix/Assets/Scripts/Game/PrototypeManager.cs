@@ -3,23 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PrototypeManager : MonoBehaviour
+public class PrototypeManager : SingletonBehaviour<PrototypeManager>
 {
     public GameObject BG;
+    public GameState gameState;
     // Update is called once per frame
+
+    public void Start()
+    {
+        gameState = GameState.Main;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
             BG.SetActive(!BG.activeSelf);
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TimeManager.Instance.TogglePauseGame();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
+    }
+
+    public void TogglePause()
+    {
+        TimeManager.Instance.TogglePauseGame();
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void GameOver()
+    {
+        gameState = GameState.Lose;
+        UIManager.Instance.ShowGameOver();
     }
 }

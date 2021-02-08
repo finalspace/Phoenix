@@ -243,6 +243,16 @@ public class Player : SingletonBehaviour<Player>
         //animator.PlayEat();
     }
 
+    public void Eat()
+    {
+        playerStats.UpdateEnergy(10);
+    }
+
+    public void EatDamage()
+    {
+        playerStats.UpdateEnergy(-10);
+    }
+
     /// <summary>
     /// Damage()->Kill()->Die()
     /// </summary>
@@ -304,6 +314,11 @@ public class Player : SingletonBehaviour<Player>
         StopSimulation();
     }
 
+    public void TransformDarkPhoenix()
+    {
+        Debug.Log("Dark Phoenix!");
+    }
+
     public void Respawn()
     {
         MusicManager.Instance?.PlayThunder();
@@ -327,6 +342,7 @@ public class Player : SingletonBehaviour<Player>
     public void GameOverFlow()
     {
         //MainGameManager.Instance.GameLost();
+        PrototypeManager.Instance.GameOver();
         Destroy(gameObject);
     }
 

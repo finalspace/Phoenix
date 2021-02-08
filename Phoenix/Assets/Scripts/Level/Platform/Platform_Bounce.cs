@@ -12,13 +12,15 @@ public class Platform_Bounce : PlatformBase
 
     public override void ObjLanding(GameObject obj)
     {
+        base.ObjLanding(obj);
+        FB_Bounce?.Play();
         Player player = obj.GetComponent<Player>();
         if (player != null)
         {
             StartCoroutine(delayedAction(() => {
                 int dir = bounceDirection == 0 ? player.lastJumpDir : bounceDirection;
                 player.Jump(dir);
-                FB_Bounce?.Play();
+                //FB_Bounce?.Play();
             }, 1));
         }
 

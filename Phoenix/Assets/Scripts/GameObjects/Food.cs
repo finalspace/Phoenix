@@ -10,6 +10,6 @@ public class Food : SimpleTrigger
     {
         MusicManager.Instance.PlayEat();
         FB_UseItem?.Play();
-        //Player.Instance.Kill();
+        Player.Instance.Eat();
     }
 }
