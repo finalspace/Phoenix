@@ -52,11 +52,18 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
         if (PrototypeManager.Instance.gameState != GameState.Main)
             return;
 
+        if (Player.Instance.isSpecial)
+        {
+            energy -= Time.deltaTime * decreasingSpeed * 8;
+            return;
+        }
+
         if (energy > 0 && losingEnergy)
         {
             energy -= Time.deltaTime * decreasingSpeed;
             if (energy <= 0) player.Kill();
         }
+
 
         if (player.transform.position.y - startingAltitude > maxHeight)
         {
@@ -95,7 +102,12 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
     public void UpdateEnergy(float value)
     {
         if (value > 0)
+        {
             bonusScore += value * 10;
+        }
+
+        if (player.isSpecial)
+            return;
 
         energy += value;
         if (energy < 0)
@@ -105,6 +117,7 @@ public class PlayerStats : SingletonBehaviour<PlayerStats>
         }
         else if (energy >= 100)
         {
+            energy = 100;
             Player.Instance.TransformDarkPhoenix();
         }
     }

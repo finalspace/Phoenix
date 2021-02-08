@@ -33,6 +33,10 @@ public class Player : SingletonBehaviour<Player>
     [Header("Respawn")]
     public Vector3 respawnPosOffset;
 
+    [Header("Special")]
+    public bool isSpecial = false;
+    public ScaleTween specialScale;
+
     [Header("Debug")]
     public bool debugNoDie = false;
 
@@ -231,8 +235,6 @@ public class Player : SingletonBehaviour<Player>
             playerMovement.Launch(jumpVel);
         }
         platform = null;
-
-        //animator.Play("DarkPhoenix");
     }
 
     public void JumpRepeat()
@@ -274,6 +276,8 @@ public class Player : SingletonBehaviour<Player>
     public void Kill()
     {
         if (!isSimulating || playerStats.IsInvulnerable) return;
+
+        if (isSpecial) return;
 
         Die();
     }
@@ -319,7 +323,19 @@ public class Player : SingletonBehaviour<Player>
 
     public void TransformDarkPhoenix()
     {
-        Debug.Log("Dark Phoenix!");
+        isSpecial = true;
+        animator.Play("DarkPhoenix");
+        playerMovement.isSpecial = true;
+        specialScale.Enlarge();
+        Invoke("TransformNormal", 3);
+    }
+
+    public void TransformNormal()
+    {
+        //isSpecial = false;
+        animator.Play("Idle");
+        specialScale.Shrink();
+        playerMovement.isSpecial = false;
     }
 
     public void Respawn()

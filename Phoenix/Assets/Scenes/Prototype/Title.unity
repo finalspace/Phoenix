@@ -2377,6 +2377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BG: {fileID: 0}
+  gameState: 0
 --- !u!1 &746010298
 GameObject:
   m_ObjectHideFlags: 0
@@ -5006,6 +5007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1829cefd03893f4d8ac24316a945bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 1851621214}
   playerMovement: {fileID: 0}
   isSimulating: 1
   isTakingControl: 1

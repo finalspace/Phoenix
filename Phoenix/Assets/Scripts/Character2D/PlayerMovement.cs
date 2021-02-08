@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     private float velocityXSmoothing;
     private float velXSmoothingTemp;
 
+    [Header("Special")]
+    public bool isSpecial = false;
+
     [Header("Status")]
     private bool isSimulating = true;
     private bool isDead = false;
@@ -64,6 +67,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isSpecial)
+        {
+            SpecialMove();
+            return;
+        }
+
         if (isSimulating)
         {
             SimulateMovement();
@@ -134,6 +143,13 @@ public class PlayerMovement : MonoBehaviour
 
         //------------------------ Update Position ---------------------------------------
         //------------------------                 ---------------------------------------
+        playerCollision.MoveIgnoreCollision(velocity * Time.fixedDeltaTime);  //move and update physics status based on new position
+    }
+
+    private void SpecialMove()
+    {
+        targetVelocityX = 0;
+        velocity = new Vector2(0, 5);
         playerCollision.MoveIgnoreCollision(velocity * Time.fixedDeltaTime);  //move and update physics status based on new position
     }
 
@@ -306,6 +322,8 @@ public class PlayerMovement : MonoBehaviour
 
         ProcessGroundInfo(ground);
         ResetState();
+
+        Player.Instance.isSpecial = false;
     }
 
     private void ProcessGroundInfo(Transform trans)

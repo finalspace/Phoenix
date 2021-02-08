@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : SingletonBehaviour<UIManager>
 {
     public Text scoreText;
+    public Text scoreText2;
     public Text lives;
     public Image healthbar;
     public GameObject GameOver;
@@ -73,6 +74,7 @@ public class UIManager : SingletonBehaviour<UIManager>
     public void ShowGameOver()
     {
         GameOverOverlay.SetActive(true);
+        scoreText2.text = "" + PlayerStats.Instance.score;
     }
 
     public void DismissGameOver()
