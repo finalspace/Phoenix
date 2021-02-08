@@ -9,4 +9,10 @@ public class RandomGenerator
         float val = Random.Range(0, 1f);
         return val <= percentage;
     }
+
+    public static float GetRandomFloat()
+    {
+        float val = Random.Range(0, 1f);
+        return val;
+    }
 }

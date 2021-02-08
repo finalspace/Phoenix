@@ -136,11 +136,13 @@ public class PlatformManager : SingletonBehaviour<PlatformManager>
     {
         //update platformRowPrefab;
 
+
+        int lastVal = 0;
         //update data
         for (int i = 0; i < nextPlatformRowData.Length; i++)
         {
             //test empty
-            if (RandomGenerator.Test(0.2f))
+            if (lastVal != 0 && RandomGenerator.Test(0.2f))
             {
                 nextPlatformRowData[i] = 0;
             }
@@ -178,6 +180,7 @@ public class PlatformManager : SingletonBehaviour<PlatformManager>
             {
                 nextPlatformRowData[i] = 1;
             }
+            lastVal = nextPlatformRowData[i];
         }
     }
 }
