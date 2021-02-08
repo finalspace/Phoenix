@@ -19,6 +19,7 @@ public class AutoJump : MonoBehaviour
         if (Time.time - coolDownStartAt > coolDown)
         {
             Vector2 vel = new Vector2(0, 1.5f + RandomGenerator.GetRandomFloat());
+            playerMovement.Flip(RandomGenerator.GetRandomFloat() - 0.5f);
             playerMovement.Launch(vel);
             Cooldown();
         }

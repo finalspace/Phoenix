@@ -416,7 +416,10 @@ public class PlayerMovement : MonoBehaviour
 
         Detach();
         EventManager.PlayerJump(velocity);
-        MusicManager.Instance.PlayJump(vel);
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.PlayJump(vel);
+        }
     }
 
     public void LaunchFailed()
