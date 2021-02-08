@@ -159,7 +159,8 @@ public class Player : SingletonBehaviour<Player>
 
         if (buttonPressed && playerMovement.AbleToJump())
         {
-            SetCharging(true);
+            SetCharging(true); 
+            playerMovement.Flip(mousePosition.x - 0.5f);
 
             /*
             //slow motion aiming?
